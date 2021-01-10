@@ -4,7 +4,8 @@ const userService = require("./user.service");
 
 // routes
 router.post("/authenticate", authenticate);
-router.get("/", getAll);
+router.get("/retrieveUser", retrieveUserData);
+router.get("/retrieveGenetic", retrieveGeneticResult);
 
 module.exports = router;
 
@@ -15,9 +16,16 @@ function authenticate(req, res, next) {
     .catch(next);
 }
 
-function getAll(req, res, next) {
+function retrieveUserData(req, res, next) {
   userService
-    .getAll()
+    .retrieveUserData(req.query)
+    .then((users) => res.json(users))
+    .catch(next);
+}
+
+function retrieveGeneticResult(req, res, next) {
+  userService
+    .retrieveGeneticResult(req.query)
     .then((users) => res.json(users))
     .catch(next);
 }
