@@ -1,13 +1,9 @@
 const config = require("config.json");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
+const dbConfig = require("db-config.json");
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "prenetics_db",
-});
+var connection = mysql.createConnection(dbConfig.localDb);
 
 connection.connect();
 
@@ -25,12 +21,12 @@ function authenticate({ email, password }) {
         reject(new Error("Error rows is undefined"));
       } else {
         if (result[0].total_rows === 0) {
-          reject(new Error("Username or password is incorrect"));
+          reject(new Error("Email or password is incorrect"));
         } else {
           const token = jwt.sign({ sub: email }, config.secret, {
-            expiresIn: "7d",
+            expiresIn: "1800000",
           });
-          resolve({ token });
+          resolve({ token, email });
         }
       }
     });

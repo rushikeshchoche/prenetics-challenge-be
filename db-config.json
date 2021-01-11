@@ -1,0 +1,8 @@
+{
+  "localDb": {
+    "host": "localhost",
+    "user": "root",
+    "password": "password",
+    "database": "prenetics_db"
+  }
+}
